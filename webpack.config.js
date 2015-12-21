@@ -9,15 +9,13 @@ const PATHS = {
   build: path.join(__dirname, 'build')
 };
 
+process.env.BABEL_ENV = TARGET;
+
 var common = {
   entry: PATHS.app,
-  // Given webpack-dev-server runs in-memory, we can drop
-  // `output`. We'll look into it again once we get to the
-  // build chapter.
-  /*output: {
-    path: PATHS.build,
-    filename: 'bundle.js'
-  },*/
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {
@@ -33,8 +31,6 @@ var common = {
     ]
   },
   plugins: [
-    // Important! move HotModuleReplacementPlugin below
-    //new webpack.HotModuleReplacementPlugin(),
     new HtmlwebpackPlugin({
       title: 'Kanban app'
     })
@@ -50,10 +46,11 @@ if(TARGET === 'start' || !TARGET) {
       inline: true,
       progress: true,
 
-      // Display only errors to reduce the amount of output.
+      // display only errors to reduce the amount of output
       stats: 'errors-only',
 
-      // Parse host and port from env so this is easy to customize.
+      // parse host and port from env so this is easy
+      // to customize
       host: process.env.HOST,
       port: process.env.PORT
     },
